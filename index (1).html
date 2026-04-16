@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>La Preferida BUS Internacional — Viaja en otro nivel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+:root{
+  --black:#080808;--deep:#0d0d0d;--surface:#141414;--border:rgba(255,255,255,0.07);
+  --gold:#c8a45a;--gold-lt:#e0bc7a;--gold-dk:#a07830;--white:#f5f2ee;--muted:rgba(245,242,238,0.45);
+  --display:'Cormorant Garamond',serif;--body:'Outfit',sans-serif;--ease:cubic-bezier(.25,.46,.45,.94);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--body);background:var(--black);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--gold);color:#000}
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5%;height:70px;display:flex;align-items:center;justify-content:space-between;background:var(--black);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo img{height:44px;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:36px}
+.nav-links a{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;position:relative}
+.nav-links a:not(.cta)::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:not(.cta):hover{color:var(--white)}
+.nav-links a:not(.cta):hover::after{width:100%}
+.cta{background:var(--gold);color:#000!important;padding:11px 24px;border-radius:3px;font-weight:600!important;transition:all .25s!important;letter-spacing:.08em}
+.cta:hover{background:var(--gold-lt)!important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,164,90,.3)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:1.5px;background:var(--white);transition:all .3s}
+.hero{height:100svh;min-height:640px;position:relative;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.slide{position:absolute;inset:0;opacity:0;background-size:cover;background-position:center;transform:scale(1.06);transition:opacity 1.4s var(--ease),transform 9s linear}
+.slide.active{opacity:1;transform:scale(1)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(8,8,8,.15) 0%,rgba(8,8,8,.5) 50%,rgba(8,8,8,.96) 100%)}
+.hero-content{position:relative;z-index:2;padding:0 5% 10vh;max-width:860px}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:22px;opacity:0;animation:fadeUp .7s .4s var(--ease) forwards}
+.hero-eyebrow-line{width:36px;height:1px;background:var(--gold)}
+.hero-eyebrow span{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.hero h1{font-family:var(--display);font-size:clamp(52px,8.5vw,108px);font-weight:300;line-height:.92;letter-spacing:-.01em;margin-bottom:26px;opacity:0;animation:fadeUp .9s .6s var(--ease) forwards}
+.hero h1 strong{font-weight:600;font-style:italic;color:var(--gold-lt)}
+.hero-sub{font-size:clamp(15px,1.4vw,17px);color:var(--muted);line-height:1.75;max-width:480px;margin-bottom:38px;font-weight:300;opacity:0;animation:fadeUp .8s .8s var(--ease) forwards}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s 1s var(--ease) forwards}
+.btn-gold{background:var(--gold);color:#000;padding:16px 36px;border:none;border-radius:3px;font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px}
+.btn-gold:hover{background:var(--gold-lt);transform:translateY(-3px);box-shadow:0 14px 36px rgba(200,164,90,.35)}
+.btn-outline{background:transparent;color:var(--white);padding:16px 32px;border:1px solid rgba(255,255,255,.25);border-radius:3px;font-family:var(--body);font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:36px;left:5%;z-index:2;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeIn 1s 1.4s ease forwards}
+.hero-scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,transparent,var(--gold))}
+.hero-scroll span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
+.slider-nav{position:absolute;bottom:40px;right:5%;z-index:2;display:flex;align-items:center;gap:20px;opacity:0;animation:fadeIn .8s 1.2s ease forwards}
+.slide-btn{width:48px;height:48px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:50%;color:var(--white);font-size:14px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center}
+.slide-btn:hover{background:var(--gold);border-color:var(--gold);color:#000}
+.slide-dots{display:flex;gap:10px;align-items:center}
+.dot{width:28px;height:2px;background:rgba(255,255,255,.25);cursor:pointer;transition:all .3s;position:relative;overflow:hidden;border-radius:2px}
+.dot::after{content:'';position:absolute;inset:0;background:var(--gold);width:0;transition:width .4s}
+.dot.active{background:rgba(255,255,255,.1)}
+.dot.active::after{width:100%}
+.booking-wrap{background:var(--deep);padding:0 5% 0;position:relative;z-index:10}
+.booking-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;display:grid;grid-template-columns:1fr 1fr 1fr auto;overflow:hidden;transform:translateY(-50%);box-shadow:0 32px 80px rgba(0,0,0,.6)}
+.bfield{padding:22px 28px;border-right:1px solid var(--border);transition:background .2s}
+.bfield:hover{background:rgba(255,255,255,.03)}
+.bfield label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
+.bfield input,.bfield select{background:none;border:none;outline:none;font-family:var(--body);font-size:16px;font-weight:400;color:var(--white);width:100%}
+.bfield input::placeholder{color:rgba(255,255,255,.3)}
+.bfield select option{background:#1a1a1a;color:var(--white)}
+.bsubmit{background:var(--gold);color:#000;border:none;padding:0 40px;font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:10px;white-space:nowrap}
+.bsubmit:hover{background:var(--gold-lt)}
+.stats{border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-inner{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:48px 40px;text-align:center;border-right:1px solid var(--border);transition:all .5s var(--ease);opacity:0;transform:translateY(20px)}
+.stat:last-child{border-right:none}
+.stat.vis{opacity:1;transform:none}
+.stat-num{font-family:var(--display);font-size:60px;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-.02em}
+.stat-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+.section-tag{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-tag::before{content:'';width:28px;height:1px;background:var(--gold)}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+.destinations{padding:120px 5%;background:linear-gradient(180deg,var(--black) 0%,#0b0b12 100%)}
+.dest-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;gap:40px}
+.dest-header h2{font-family:var(--display);font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:.95;letter-spacing:-.01em}
+.dest-header h2 em{font-style:italic;font-weight:600;color:var(--gold-lt)}
+.dest-header p{max-width:380px;color:var(--muted);line-height:1.7;font-size:15px;font-weight:300;text-align:right;flex-shrink:0}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dest-card{position:relative;border-radius:10px;overflow:hidden;cursor:pointer;aspect-ratio:3/4}
+.dest-card img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.dest-card:hover img{transform:scale(1.08)}
+.dest-card::before{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.94) 0%,rgba(8,8,8,.3) 50%,rgba(8,8,8,.05) 100%);z-index:1;transition:opacity .4s}
+.dest-card:hover::before{opacity:.85}
+.dest-badge{position:absolute;top:20px;right:20px;z-index:2;background:var(--gold);color:#000;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:6px 12px;border-radius:3px;opacity:0;transform:translateY(-8px);transition:all .35s}
+.dest-card:hover .dest-badge{opacity:1;transform:none}
+.dest-info{position:absolute;bottom:0;left:0;right:0;z-index:2;padding:32px 28px}
+.dest-info h3{font-family:var(--display);font-size:36px;font-weight:600;margin-bottom:6px;transform:translateY(10px);transition:transform .4s}
+.dest-info p{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);transform:translateY(12px);transition:transform .4s .05s}
+.dest-card:hover .dest-info h3,.dest-card:hover .dest-info p{transform:none}
+.benefits{background:var(--deep)}
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:600px}
+.split-media{overflow:hidden;position:relative}
+.split-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.split:hover .split-media img{transform:scale(1.04)}
+.split-body{padding:80px 72px;display:flex;flex-direction:column;justify-content:center}
+.split-body h2{font-family:var(--display);font-size:clamp(38px,4vw,58px);font-weight:300;line-height:1.05;letter-spacing:-.01em;margin-bottom:20px}
+.split-body h2 em{font-style:italic;font-weight:600;color:var(--gold-lt)}
+.split-body>p{font-size:16px;color:var(--muted);line-height:1.8;font-weight:300;max-width:440px;margin-bottom:36px}
+.benefit-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:40px}
+.benefit-list li{display:flex;align-items:flex-start;gap:14px;font-size:15px;font-weight:400;color:rgba(255,255,255,.75);line-height:1.5}
+.benefit-list li::before{content:'';width:20px;height:20px;background:rgba(200,164,90,.15);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23c8a45a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
+.pet-banner{margin:0;background:linear-gradient(130deg,#0a5c4a,#0f7e5f,#0a6e52);border-radius:16px;display:grid;grid-template-columns:auto 1fr;overflow:hidden;position:relative}
+.pet-banner::after{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:rgba(255,255,255,.06);border-radius:50%}
+.pet-img-wrap{width:340px;overflow:hidden;flex-shrink:0}
+.pet-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.pet-body{padding:60px 56px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1}
+.pet-body h3{font-family:var(--display);font-size:clamp(30px,3.5vw,44px);font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:14px;line-height:1.1}
+.pet-body h3 i{font-size:28px;color:rgba(255,255,255,.85)}
+.pet-body p{font-size:16px;line-height:1.75;color:rgba(255,255,255,.85);max-width:480px;margin-bottom:30px;font-weight:300}
+.btn-white{background:#fff;color:#0a5c4a;padding:14px 28px;border-radius:4px;font-family:var(--body);font-size:13px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .25s}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.2)}
+.fleet{padding:120px 5%;background:var(--black)}
+.fleet-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px;gap:40px}
+.fleet-header h2{font-family:var(--display);font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:.95}
+.fleet-header h2 em{font-style:italic;font-weight:600;color:var(--gold-lt)}
+.fleet-header p{max-width:320px;color:var(--muted);font-size:15px;line-height:1.7;font-weight:300;text-align:right;flex-shrink:0}
+.fleet-grid{display:grid;grid-template-columns:1.55fr 1fr 1fr;grid-template-rows:auto auto;gap:18px}
+.fcard{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:transform .4s var(--ease)}
+.fcard:hover{transform:translateY(-8px)}
+.fcard.tall{grid-row:span 2}
+.fcard img{width:100%;height:100%;object-fit:cover;display:block;min-height:240px;transition:transform .7s var(--ease)}
+.fcard.tall img{min-height:520px}
+.fcard:hover img{transform:scale(1.06)}
+.fcard::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,8,.9) 0%,transparent 55%)}
+.fcard-info{position:absolute;bottom:0;left:0;right:0;padding:28px 26px;z-index:1}
+.fcard-info span{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.fcard-info h3{font-family:var(--display);font-size:22px;font-weight:600;margin-top:4px}
+.amenities{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px;padding-top:52px;border-top:1px solid var(--border)}
+.amenity{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:20px 16px;display:flex;align-items:center;gap:14px;transition:all .3s}
+.amenity:hover{background:rgba(200,164,90,.06);border-color:rgba(200,164,90,.3);transform:translateY(-4px)}
+.amenity i{font-size:18px;color:var(--gold);width:40px;height:40px;background:rgba(200,164,90,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.amenity span{font-size:13px;font-weight:400;color:rgba(255,255,255,.8);line-height:1.3}
+.marquee{padding:22px 0;background:var(--gold);overflow:hidden}
+.mtrack{display:flex;gap:0;width:max-content;animation:marquee 20s linear infinite}
+.mtrack span{font-family:var(--display);font-size:20px;font-weight:600;font-style:italic;color:#000;white-space:nowrap;padding:0 40px;display:flex;align-items:center;gap:40px}
+.mdot{width:5px;height:5px;background:rgba(0,0,0,.3);border-radius:50%;display:inline-block}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.testimonial{padding:140px 5%;background:var(--white);color:#0a0a0a;display:flex;align-items:center;justify-content:center}
+.tinner{max-width:820px;text-align:center}
+.tstars{color:var(--gold-dk);font-size:18px;letter-spacing:5px;margin-bottom:28px}
+.tinner blockquote{font-family:var(--display);font-size:clamp(28px,3.8vw,50px);font-weight:300;font-style:italic;line-height:1.35;letter-spacing:-.01em;margin-bottom:32px;color:#1a1a1a}
+.tinner blockquote strong{font-weight:600;color:var(--gold-dk);font-style:italic}
+.tauthor{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#888;font-weight:500}
+.contact{padding:120px 5%;background:var(--deep);border-top:1px solid var(--border)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;max-width:1200px;margin:0 auto}
+.contact-info h2{font-family:var(--display);font-size:clamp(40px,4.5vw,60px);font-weight:300;line-height:1;margin-bottom:20px;margin-top:12px}
+.contact-info h2 em{font-style:italic;font-weight:600;color:var(--gold-lt)}
+.contact-info>p{color:var(--muted);line-height:1.75;font-size:15px;margin-bottom:44px;font-weight:300}
+.cdetails{display:flex;flex-direction:column;gap:26px}
+.citem{display:flex;gap:18px;align-items:flex-start}
+.citem i{color:var(--gold);font-size:16px;margin-top:3px;flex-shrink:0;width:18px}
+.citem h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:5px;font-weight:600}
+.citem p{font-size:14px;color:var(--muted);line-height:1.6;font-weight:300}
+.cform{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;padding:48px}
+.fg{margin-bottom:22px}
+.fg label{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px}
+.fg input,.fg textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:14px 16px;color:var(--white);font-family:var(--body);font-size:15px;outline:none;transition:all .25s;font-weight:300}
+.fg input:focus,.fg textarea:focus{border-color:var(--gold);background:rgba(200,164,90,.04)}
+.fg textarea{min-height:110px;resize:vertical}
+footer{background:#040404;padding:72px 5%;border-top:1px solid var(--border)}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:60px;margin-bottom:56px}
+.fbrand{font-family:var(--display);font-size:24px;font-weight:600;color:var(--white)}
+.fbrand em{font-style:italic;color:var(--gold)}
+.footer-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+.fcol h4{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:600}
+.fcol a{display:block;font-size:13px;color:rgba(255,255,255,.35);text-decoration:none;margin-bottom:10px;transition:all .25s;font-weight:300}
+.fcol a:hover{color:var(--gold-lt);transform:translateX(4px)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:36px;border-top:1px solid var(--border);font-size:12px;color:rgba(255,255,255,.2)}
+.socials{display:flex;gap:12px}
+.socials a{width:40px;height:40px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);text-decoration:none;transition:all .25s}
+.socials a:hover{background:var(--gold);border-color:var(--gold);color:#000;transform:translateY(-3px)}
+.fab{position:fixed;bottom:36px;right:36px;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;text-decoration:none;box-shadow:0 8px 28px rgba(37,211,102,.4);transition:all .3s;z-index:800}
+.fab:hover{transform:scale(1.1) rotate(8deg);box-shadow:0 12px 36px rgba(37,211,102,.5)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:1100px){.dest-grid{grid-template-columns:1fr 1fr}.fleet-grid{grid-template-columns:1fr 1fr}.fcard.tall{grid-row:auto}.amenities{grid-template-columns:repeat(2,1fr)}.contact-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.nav-links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:rgba(8,8,8,.97);padding:28px 5%;border-bottom:1px solid var(--border);gap:24px;backdrop-filter:blur(20px)}.nav-links.open{display:flex}.hamburger{display:flex}.booking-card{grid-template-columns:1fr;transform:translateY(-20px);margin:0}.bfield{border-right:none;border-bottom:1px solid var(--border)}.bsubmit{padding:22px;justify-content:center}.stats-inner{grid-template-columns:1fr 1fr}.stat{border-right:none;border-bottom:1px solid var(--border)}.stat:nth-child(even){border-left:1px solid var(--border)}.dest-grid,.fleet-grid{grid-template-columns:1fr}.dest-header,.fleet-header{flex-direction:column;align-items:flex-start;gap:16px}.dest-header p,.fleet-header p{text-align:left;max-width:100%}.split{grid-template-columns:1fr}.split-media{height:340px}.split-body{padding:56px 28px}.pet-banner{grid-template-columns:1fr}.pet-img-wrap{width:100%;height:260px}.pet-body{padding:44px 28px}.footer-top{flex-direction:column;gap:36px}.footer-cols{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.footer-cols{grid-template-columns:1fr}.amenities{grid-template-columns:1fr}.hero-btns{flex-direction:column}.btn-gold,.btn-outline{justify-content:center;width:100%;max-width:280px}.hero-scroll{display:none}.slider-nav{bottom:28px}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="#inicio" class="nav-logo">
+    <img src="logo-black-bg.png" alt="La Preferida BUS"/>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#destinos">Destinos</a>
+    <a href="#flota">Flota</a>
+    <a href="#beneficios">Beneficios</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+    <a href="https://pasarela.lapreferida.com.bo" class="cta">Reservar ahora</a>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<section class="hero" id="inicio">
+  <div class="hero-bg">
+    <div class="slide active" style="background-image:url('bus-hero.png')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1920&q=80')"></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=80')"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><div class="hero-eyebrow-line"></div><span>Bolivia · Transporte Internacional · Desde 2007</span></div>
+    <h1>Viajar en<br/><strong>otro nivel.</strong></h1>
+    <p class="hero-sub">La flota más moderna de Bolivia, rediseñada para quienes exigen más que un asiento. Bienvenido a la nueva era del viaje terrestre internacional.</p>
+    <div class="hero-btns">
+      <a href="https://pasarela.lapreferida.com.bo" class="btn-gold">Buscar pasajes <i class="fas fa-arrow-right"></i></a>
+      <a href="#flota" class="btn-outline">Conoce la flota</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div><span>Scroll</span></div>
+  <div class="slider-nav">
+    <button class="slide-btn" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+    <div class="slide-dots">
+      <span class="dot active" onclick="goSlide(1)"></span>
+      <span class="dot" onclick="goSlide(2)"></span>
+      <span class="dot" onclick="goSlide(3)"></span>
+    </div>
+    <button class="slide-btn" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+  </div>
+</section>
+<div class="booking-wrap" id="reserva">
+  <div class="booking-card">
+    <div class="bfield"><label>Origen</label><input type="text" placeholder="Santa Cruz de la Sierra"/></div>
+    <div class="bfield"><label>Destino</label><select><option value="">Selecciona destino</option><option>São Paulo, Brasil</option><option>Buenos Aires, Argentina</option></select></div>
+    <div class="bfield"><label>Fecha de viaje</label><input type="date"/></div>
+    <button class="bsubmit" onclick="window.location.href='https://pasarela.lapreferida.com.bo'">Buscar pasajes <i class="fas fa-arrow-right"></i></button>
+  </div>
+</div>
+<div class="stats"><div class="stats-inner">
+  <div class="stat"><div class="stat-num" data-target="2" data-suffix="">2</div><div class="stat-label">Rutas internacionales</div></div>
+  <div class="stat"><div class="stat-num" data-target="1" data-suffix="M+">1M+</div><div class="stat-label">Pasajeros al año</div></div>
+  <div class="stat"><div class="stat-num" data-target="18" data-suffix="">18</div><div class="stat-label">Años de experiencia</div></div>
+  <div class="stat"><div class="stat-num" data-target="98" data-suffix="%">98%</div><div class="stat-label">Satisfacción</div></div>
+</div></div>
+<section class="destinations" id="destinos">
+  <div class="dest-header">
+    <div><p class="section-tag reveal">Destinos Internacionales</p><h2 class="reveal d1">Nuestros<br/><em>destinos.</em></h2></div>
+    <p class="reveal d2">Viajes directos desde Santa Cruz de la Sierra hacia las principales ciudades de Sudamérica con el máximo confort y seguridad.</p>
+  </div>
+  <div class="dest-grid">
+    <div class="dest-card reveal"><img src="santa-cruz.jpg" alt="Santa Cruz" loading="lazy"/><span class="dest-badge">Origen</span><div class="dest-info"><h3>Santa Cruz</h3><p>Bolivia · Terminal Bimodal</p></div></div>
+    <div class="dest-card reveal d1"><img src="sao-paulo-new.jpg" alt="São Paulo" loading="lazy"/><span class="dest-badge">Vía Puerto Suárez</span><div class="dest-info"><h3>São Paulo</h3><p>Brasil · La capital económica</p></div></div>
+    <div class="dest-card reveal d2"><img src="buenos-aires.jpg" alt="Buenos Aires" loading="lazy"/><span class="dest-badge">Vía Villazón</span><div class="dest-info"><h3>Buenos Aires</h3><p>Argentina · La París de Sudamérica</p></div></div>
+  </div>
+</section>
+<section class="benefits" id="beneficios">
+  <div class="split">
+    <div class="split-media"><img src="bus-tarifas.png" alt="Beneficios" loading="lazy"/></div>
+    <div class="split-body">
+      <p class="section-tag reveal">Beneficios exclusivos</p>
+      <h2 class="reveal d1">Tarifas especiales<br/><em>para ti.</em></h2>
+      <p class="reveal d2">Consulta nuestras tarifas preferenciales diseñadas para diferentes perfiles de viajeros. Tu comodidad es nuestra prioridad.</p>
+      <ul class="benefit-list reveal d2">
+        <li>Descuentos especiales para estudiantes con carnet válido</li>
+        <li>Tarifas preferenciales para adultos mayores</li>
+        <li>Reservas grupales para colegios y empresas</li>
+        <li>Programa de fidelización con millas acumulables</li>
+      </ul>
+      <a href="https://pasarela.lapreferida.com.bo" class="btn-gold reveal d3" style="align-self:flex-start">Ver condiciones <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+  <div style="padding:60px 5%">
+    <div class="pet-banner reveal">
+      <div class="pet-img-wrap"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&q=80" alt="Pet Friendly" loading="lazy"/></div>
+      <div class="pet-body">
+        <h3><i class="fas fa-paw"></i> Somos Pet Friendly</h3>
+        <p>Tu mascota puede viajar contigo si pesa menos de 8 kg y cumple con todos los requisitos exigidos por el país de destino. Consulta la documentación necesaria.</p>
+        <a href="https://pasarela.lapreferida.com.bo" class="btn-white">Ver requisitos <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="fleet" id="flota">
+  <div class="fleet-header">
+    <div><p class="section-tag reveal">Nuestra flota</p><h2 class="reveal d1">Buses G8.<br/><em>El futuro del viaje.</em></h2></div>
+    <p class="reveal d2">Unidades de última generación diseñadas para cruces internacionales con el máximo confort en cada kilómetro.</p>
+  </div>
+  <div class="fleet-grid">
+    <div class="fcard tall reveal"><img src="flota-g8.png" alt="Buses G8" loading="lazy"/><div class="fcard-info"><span>Double Decker</span><h3>Buses G8</h3></div></div>
+    <div class="fcard reveal d1"><img src="interior-comfort.png" alt="Interior" loading="lazy"/><div class="fcard-info"><span>Confort Premium</span><h3>Comfort</h3></div></div>
+    <div class="fcard reveal d2"><img src="https://images.unsplash.com/photo-1542903660-eedba2cda473?w=600&q=80" alt="Entretenimiento" loading="lazy"/><div class="fcard-info"><span>Tecnología</span><h3>Wi‑Fi & Streaming HD</h3></div></div>
+  </div>
+  <div class="amenities">
+    <div class="amenity reveal"><i class="fas fa-toilet"></i><span>Baño a bordo</span></div>
+    <div class="amenity reveal d1"><i class="fas fa-layer-group"></i><span>Doble piso</span></div>
+    <div class="amenity reveal d2"><i class="fas fa-wifi"></i><span>WiFi a bordo</span></div>
+    <div class="amenity reveal d3"><i class="fas fa-plug"></i><span>Cargador tipo C</span></div>
+    <div class="amenity reveal"><i class="fas fa-snowflake"></i><span>Climatización</span></div>
+    <div class="amenity reveal d1"><i class="fas fa-tv"></i><span>Entretenimiento HD</span></div>
+    <div class="amenity reveal d2"><i class="fas fa-bed"></i><span>Coches cama</span></div>
+    <div class="amenity reveal d3"><i class="fas fa-users"></i><span>Capacidad 43–56 pax</span></div>
+  </div>
+</section>
+<div class="marquee"><div class="mtrack"><span>Santa Cruz <span class="mdot"></span> São Paulo <span class="mdot"></span> Buenos Aires <span class="mdot"></span> Confort Premium <span class="mdot"></span> Seguridad <span class="mdot"></span> Excelencia <span class="mdot"></span></span><span>Santa Cruz <span class="mdot"></span> São Paulo <span class="mdot"></span> Buenos Aires <span class="mdot"></span> Confort Premium <span class="mdot"></span> Seguridad <span class="mdot"></span> Excelencia <span class="mdot"></span></span></div></div>
+<section class="testimonial" id="nosotros">
+  <div class="tinner reveal">
+    <div class="tstars">★★★★★</div>
+    <blockquote>"El viaje más <strong>cómodo</strong> que he experimentado en Sudamérica. Atención de primera y unidades impecables."</blockquote>
+    <div class="tauthor">— Carlos M. · Viajero frecuente</div>
+  </div>
+</section>
+<section class="contact" id="contacto">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p class="section-tag reveal">Contacto</p>
+      <h2 class="reveal d1">Estamos aquí<br/><em>para ti.</em></h2>
+      <p class="reveal d2">¿Tienes dudas sobre tu viaje? Nuestro equipo está disponible para asistirte en lo que necesites.</p>
+      <div class="cdetails">
+        <div class="citem reveal d1"><i class="fas fa-map-marker-alt"></i><div><h4>Terminal de Buses</h4><p>Santa Cruz de la Sierra, Bolivia<br/>Terminal Bimodal</p></div></div>
+        <div class="citem reveal d2"><i class="fas fa-phone"></i><div><h4>Teléfono</h4><p>68922302</p></div></div>
+        <div class="citem reveal d3"><i class="fas fa-envelope"></i><div><h4>Email</h4><p>info@lapreferida.com.bo</p></div></div>
+      </div>
+    </div>
+    <div class="cform reveal d1">
+      <div class="fg"><label>Nombre completo</label><input type="text" placeholder="Tu nombre"/></div>
+      <div class="fg"><label>Email</label><input type="email" placeholder="tu@email.com"/></div>
+      <div class="fg"><label>Mensaje</label><textarea placeholder="¿En qué podemos ayudarte?"></textarea></div>
+      <button class="btn-gold" style="width:100%;justify-content:center" onclick="alert('Mensaje enviado. Te contactaremos pronto.')">Enviar mensaje <i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="footer-top">
+    <div>
+      <img src="logo-black-bg.png" alt="La Preferida BUS" style="height:40px;object-fit:contain;"/>
+      <p style="font-family:var(--body);font-size:13px;color:rgba(255,255,255,.3);margin-top:10px;max-width:280px;line-height:1.65;font-weight:300">Tu mejor opción para viajar internacionalmente desde Bolivia. Comodidad, seguridad y puntualidad desde 2007.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="fcol"><h4>Servicios</h4><a href="#">Transporte de Pasajeros</a><a href="#">Encomiendas</a><a href="#">Turismo</a><a href="#">Charters</a></div>
+      <div class="fcol"><h4>Empresa</h4><a href="#">Nosotros</a><a href="#">Flota</a><a href="#">Cobertura</a><a href="#">Trabaja con nosotros</a></div>
+      <div class="fcol"><h4>Legal</h4><a href="#">Términos y Condiciones</a><a href="#">Política de Privacidad</a><a href="#">Derechos del Pasajero</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 La Preferida BUS Internacional. Todos los derechos reservados.</p>
+    <div class="socials">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+</footer>
+<a href="https://wa.me/59168922302" class="fab" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+<script>
+// Navbar siempre negro - sin cambios al hacer scroll
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+let idx=1,timer;
+function showSlide(n){const s=document.querySelectorAll('.slide'),d=document.querySelectorAll('.dot');if(n>s.length)idx=1;if(n<1)idx=s.length;s.forEach(x=>x.classList.remove('active'));d.forEach(x=>x.classList.remove('active'));s[idx-1].classList.add('active');d[idx-1].classList.add('active');}
+function changeSlide(n){clearInterval(timer);showSlide(idx+=n);auto();}
+function goSlide(n){clearInterval(timer);showSlide(idx=n);auto();}
+function auto(){timer=setInterval(()=>{idx++;showSlide(idx);},6500);}
+auto();
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');if(e.target.classList.contains('stat')&&!e.target.dataset.counted){e.target.dataset.counted='1';const el=e.target.querySelector('.stat-num');const raw=el.textContent;const suffix=raw.replace(/[0-9]/g,'');const num=parseInt(raw);let c=0,step=Math.ceil(num/40);const t=setInterval(()=>{c=Math.min(c+step,num);el.textContent=c+suffix;if(c>=num)clearInterval(t);},35);}}});},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.stat').forEach(el=>io.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+</script>
+</body>
+</htm;}});});
+</script>
+</body>
+</html>
